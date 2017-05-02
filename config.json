@@ -1,0 +1,12 @@
+{
+	"repoCheck": {
+		"rootUrl": "https://gitlab.com/ed.gracilla/"
+	},
+
+	"icon": {
+		"folder": "asset/icon",
+		"pullSrc": "C:/Users/User/Desktop/plugin-icons"
+	},
+
+	"logging": "mute"
+}
