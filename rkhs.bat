@@ -1,19 +1,20 @@
 @echo off
+node "%~dp0/app.js"  "%CD%"
 
-set var=%1
-set var=%var:~0,1%
+REM set var=%1
+REM set var=%var:~0,1%
 
-IF [%~1] == [] GOTO EXEC_NAKED
+REM IF [%~1] == [] GOTO EXEC_NAKED
 
-GOTO EXEC_CMD
+REM GOTO EXEC_CMD
 
-:EXEC_CMD
-	IF %var% == - GOTO EXEC_NAKED
-	node "%~dp0/app.js" %* "--base=%CD%"
-	GOTO END
+REM :EXEC_CMD
+REM 	IF %var% == - GOTO EXEC_NAKED
+REM 	node "%~dp0/app.js" %* "--base=%CD%"
+REM 	GOTO END
 
-:EXEC_NAKED
-	node "%~dp0/app.js" %* "--root=%CD%"
-	GOTO END
+REM :EXEC_NAKED
+REM 	node "%~dp0/app.js" %* "--root=%CD%"
+REM 	GOTO END
 
-:END
+REM :END

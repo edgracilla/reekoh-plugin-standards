@@ -1,73 +1,39 @@
 'use strict'
 
-const globby = require('globby')
-const program = require('commander')
 const bluebird = require('bluebird')
-
-const runner = require('./runner')
-const packageJson = require('./package.json')
-
-const Icon = require('./lib/Icon')
-const Repository = require('./lib/Repository')
-
-const IconRunner = require('./runner/IconRunner')
-
-let icon = new Icon()
-let repo = new Repository()
-let iconRnr = new IconRunner()
-
 global.Promise = bluebird
 
-program
-  .version(packageJson.version)
-  .option('-r, --root <String>', 'Root dir')
-  .option('-f, --fix', 'Fix discrepancies found', false)
-  .option('-v, --verbose', 'Verbose logging', true)
-  .option('-x, --xxx', 'xxx')
-  
-// program
-// 	.command('icon')
-// 	.description('Run reekoh plugin standard checker')
-// 	.option('-b, --base <String>', 'Base path to check')
-// 	.option('-v, --verbose', 'Verbose logging', true)
-//   .action((options) => {
-//   	icon.check(options)
-//   })
+const Test = require('./lib/Test')
+const Assets = require('./lib/Assets')
+const AppYml = require('./lib/AppYml')
+const GitlabCI = require('./lib/GitlabCI')
+const ReekohYml = require('./lib/ReekohYml')
+const GitIgnore = require('./lib/GitIgnore')
+const DockerFile = require('./lib/Dockerffff')
+const DockerIgnore = require('./lib/DockerIgnore')
 
-program
-	.command('repo-check')
-	.description('Repository Check')
-	.option('-u, --root-url <String>', 'Root url')
-	.option('-b, --base <String>', 'Base path to check')
-	.option('-v, --verbose', 'Verbose logging', true)
-  .action((options, a) => {
-  	repo.check(options, a)
-  })
-
-program
-	.parse(process.argv)
-
-// 'rkhs' cmd was fired with no params
-// --root was filled by bat file
-if (program.rawArgs.length > 2) {
-	if (program.root) {
-		// runner.run(program.root).then(ruleErr => {
-		// 	ruleErr.forEach(err => {
-		// 		console.log(err)
-		// 	})
-		// }).catch(err => {
-		// 	console.log(err.message)
-		// })
-
-		console.log(`-- Checking icons..`, program.verbose)
-
-		iconRnr.run(program.root, program.fix, program.verbose).then(() => {
-			console.log(`-- Icon check done!`)
-		}).catch(err => {
-			console.log(`${err}`)
-		})
-	}
+if (process.argv.length < 3) {
+  console.log('Command param err')
 } else {
-	console.log(program.rawArgs.length)
-	console.log(program.rawArgs)
+  let root = process.argv[2]
+  let pluginName = root.match(/.*\\([^\\]+)/)[1]
+
+  let test = new Test(root)
+  let gitlabci = new GitlabCI(root)
+  let gitignore = new GitIgnore(root)
+  let dockerignore = new DockerIgnore(root)
+
+  let assets = new Assets(root, pluginName)
+  let appyml = new AppYml(root, pluginName)
+  let reekohyml = new ReekohYml(root, pluginName)
+  let dockerfile = new DockerFile(root, pluginName)
+
+  // assets.check().then(console.log)
+  // test.hasTest().then(console.log)
+  // dockerignore.check().then(console.log).catch(console.log)
+  // gitignore.check().then(console.log).catch(console.log)
+  // gitlabci.check().then(console.log).catch(console.log)
+  // dockerfile.check().then(console.log).catch(console.log)
+  // appyml.check().then(console.log).catch(console.log)
+  reekohyml.check().then(console.log).catch(console.log)
 }

@@ -1,0 +1,20 @@
+---
+image: node:boron
+
+before_script:
+  - apt-get update -y
+  - npm install gulp gulp-cli -g && npm install
+
+stages:
+  - build
+
+lint:
+  script: gulp lint
+  stage: build
+  only:
+    - master
+  tags:
+    - docker
+    - linux
+  allow_failure: false
+  when: always

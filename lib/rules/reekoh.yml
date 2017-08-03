@@ -1,0 +1,24 @@
+---
+apiVersion: 1.0.0
+kind: Plugin
+metadata:
+  name: Place Holder
+  description: "This is a Place Holder"
+  icon: ./assets/place-holder.png
+  type: Stream
+  price: 0
+  tags:
+    - place
+    - holder
+  release:
+    version: 1.0.0
+    pluginRootDir: ./
+    documentation: ./README.md
+    notes: ./release-notes/RELEASE-v1.0.0.md
+    config:
+      host:
+        label: Endpoint Host
+        type: String
+        required: true
+        help: Hypercat server endpoint.
+        maxLength: 1000
